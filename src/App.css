@@ -1,0 +1,671 @@
+/* ========================================= */
+/* GLOBAL RESET & VARIABLES */
+/* ========================================= */
+:root {
+  /* SKEMA WARNA REVISI (Premium Cyan/Navy) */
+  --primary: #08192f; /* Darker Navy/Blue Black */
+  --secondary: #f8f8ff; /* Off-White / Teks */
+  --accent: #00b4ff; /* Aksen Cyan Cerah */
+  --dark-accent: #0588c7; /* Aksen sedikit gelap untuk hover/cta */
+  --navbar-bg: rgba(10, 25, 47, 0.95);
+  --hover-bg: #172a45;
+  --shadow: rgba(0, 0, 0, 0.4);
+  --navbar-height: 70px;
+
+  /* Font */
+  --font-family: "Poppins", sans-serif;
+
+  /* Padding Global */
+  --section-padding: 8rem 7% 1.4rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  border: none;
+  scroll-behavior: smooth;
+}
+
+/* ========================================= */
+/* BODY & ROOT */
+/* ========================================= */
+html,
+body,
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--primary);
+  color: var(--secondary);
+}
+
+/* ========================================= */
+/* NAVBAR (Logo Proporsional) */
+/* ========================================= */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.4rem 7%;
+  background-color: var(--navbar-bg);
+  border-bottom: 0.1vh solid var(--accent);
+  box-shadow: 0 2px 10px var(--shadow);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}
+
+.navbar .logo {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.navbar .navbar-logo {
+  width: 40px; /* ✅ Proporsional */
+  height: auto;
+}
+
+.navbar .navbar-logo-text {
+  font-size: 1.8rem; /* ✅ Proporsional */
+  font-weight: 700;
+  color: var(--secondary);
+}
+
+.navbar .navbar-nav a {
+  color: var(--secondary);
+  display: inline-block;
+  font-size: 1rem;
+  margin: 0 1rem;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.navbar .navbar-nav a:hover {
+  color: var(--accent);
+}
+
+.navbar .navbar-nav a::before {
+  content: "";
+  position: absolute;
+  bottom: -0.3rem;
+  left: 0;
+  width: 0;
+  height: 0.1rem;
+  background: var(--accent);
+  transition: width 0.3s ease-in-out;
+}
+
+.navbar .navbar-nav a:hover::before {
+  width: 100%;
+}
+
+/* ✅ PERBAIKAN POSISI NAVBAR-EXTRA */
+.navbar .navbar-extra {
+    display: flex;
+    align-items: center; /* WAJIB: Memastikan input dan ikon sejajar */
+    gap: 0.5rem; /* Memberi sedikit jarak antar elemen */
+}
+
+.navbar .navbar-extra a {
+  color: var(--secondary);
+  /* Hilangkan margin horizontal di sini, diganti oleh gap di parent */
+  /* margin: 0 0.5rem; */ 
+  transition: color 0.2s;
+}
+
+.navbar .navbar-extra a:hover {
+  color: var(--accent);
+}
+
+#hamburger-menu {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: none;
+}
+/* ========================================= */
+/* HERO SECTION */
+/* ========================================= */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background-image: url("./assets/883.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  padding-top: 6rem;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Overlay agar teks kontras */
+}
+
+.hero .content {
+  padding: 1.4rem 7%;
+  max-width: 60rem;
+  position: relative;
+  z-index: 10;
+}
+
+.hero .content h1 {
+  font-size: 5rem;
+  color: var(--secondary);
+  line-height: 1.2;
+  text-shadow: 1px 1px 3px rgba(1, 1, 3, 0.5);
+}
+
+.hero .content h1 span {
+  color: var(--accent);
+}
+
+.hero .content p {
+  margin-top: 1rem;
+  font-size: 1.4rem;
+  font-weight: 300;
+  line-height: 1.4;
+  text-shadow: 1px 1px 3px rgba(1, 1, 3, 0.5);
+  color: var(--secondary);
+}
+
+.hero .content .cta {
+  margin-top: 1rem;
+  padding: 1rem 3rem;
+  font-size: 1.4rem;
+  color: var(--secondary);
+  background-color: var(--dark-accent);
+  border-radius: 4px;
+  display: inline-block;
+  box-shadow: 1px 1px 3px var(--shadow);
+  transition: all 0.2s ease;
+}
+
+.hero .content .cta:hover {
+  background-color: var(--accent);
+}
+
+/* ========================================= */
+/* COMMON SECTION STYLES */
+/* ========================================= */
+/* .about, */
+.about,
+.service,
+.project,
+.contact {
+  padding: var(--section-padding);
+}
+
+.about h2,
+.service h2,
+.project h2,
+.contact h2 {
+  text-align: center;
+  font-size: 2.6rem;
+  margin-bottom: 3rem;
+}
+
+.about h2 span,
+.service h2 span,
+.project h2 span,
+.contact h2 span {
+  color: var(--accent);
+}
+
+/* ========================================= */
+/* ABOUT SECTION (Lanyard di Kanan) */
+/* ========================================= */
+.about {
+  position: relative;
+  padding-bottom: 2rem;
+}
+
+.about-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 3rem;
+  /* ✅ PENTING: Margin Negatif untuk menarik About Row ke atas, menempel ke H2 */
+  margin-top: -2rem; /* Anda bisa coba -3rem atau -4rem jika kurang nempel */
+  flex-wrap: wrap;
+  padding-bottom: 2rem;
+}
+.about-content {
+  flex: 1 1 50%; /* Teks mengambil setengah lebar */
+  margin: 0;
+  justify-content: center;
+  text-align: center;
+  max-width: 60rem;
+  margin: auto auto 3rem;
+  position: relative;
+  z-index: 1;
+  padding-top: var(--top-offset);
+}
+
+.about-content p {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-size: 1.5rem;
+  line-height: 1.7;
+  margin-bottom: 1.5rem; /* Kurangi margin antar paragraf */
+  color: var(--secondary);
+}
+
+/* ========================================= */
+/* SERVICE SECTION (Card Layout) */
+/* ========================================= */
+
+.service-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+.service-card {
+  background-color: var(--hover-bg);
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-top: 3px solid var(--accent);
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px var(--shadow);
+}
+
+.service-card-img,
+.service-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 1rem;
+  color: var(--accent);
+}
+.service-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.service-card h3 {
+  font-size: 1.6rem;
+  color: var(--secondary);
+  margin-bottom: 0.75rem;
+}
+
+.service-card p {
+  color: var(--secondary);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.service-cta {
+  display: inline-block;
+  color: var(--accent);
+  font-weight: 500;
+  font-size: 1rem;
+  border-bottom: 1px dashed var(--accent);
+  padding-bottom: 2px;
+}
+.service-cta:hover {
+  color: var(--secondary);
+  border-bottom: 1px dashed var(--secondary);
+}
+
+/* ========================================= */
+/* PROJECT SECTION */
+/* ========================================= */
+.project-subheading {
+  text-align: center;
+  max-width: 60rem;
+  margin: auto auto 3rem;
+  color: var(--secondary);
+  font-size: 1.1rem;
+}
+
+.project-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 5rem;
+}
+
+.project .project-card {
+  background-color: var(--navbar-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: left;
+}
+
+.project .project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px var(--shadow);
+}
+
+.project .project-card-img {
+  border-radius: 5%;
+  width: 100%;
+  max-width: none;
+  height: 200px;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  border: 1px solid var(--accent);
+}
+
+.project .project-card-title {
+  font-size: 1.5rem;
+  color: var(--secondary);
+  margin-bottom: 0.5rem;
+}
+
+.project .project-card-description {
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--secondary);
+  margin: 0.5rem 0 1rem 0;
+}
+
+.project-link {
+  color: var(--accent);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.2s;
+}
+
+.project-link:hover {
+  color: var(--secondary);
+}
+
+/* ========================================= */
+/* CONTACT SECTION */
+/* ========================================= */
+.contact-subheading {
+  text-align: center;
+  max-width: 50rem;
+  margin: 1rem auto 3rem;
+  color: var(--secondary);
+  font-size: 1.1rem;
+}
+
+.contact-form-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: var(--hover-bg);
+  border-radius: 8px;
+  box-shadow: 0 5px 15px var(--shadow);
+}
+
+.contact-form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-form-container input,
+.contact-form-container textarea {
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+  background-color: var(--primary);
+  border: 1px solid rgba(0, 180, 255, 0.4);
+  color: var(--secondary);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.contact-form-container input:focus,
+.contact-form-container textarea:focus {
+  border-color: var(--accent);
+}
+
+.contact-form-container textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.contact-form-container .cta {
+  align-self: flex-start;
+}
+
+/* ========================================= */
+/* FOOTER STYLE */
+/* ========================================= */
+.footer {
+  padding: 2rem 7%;
+  text-align: center;
+  color: var(--secondary);
+  border-top: 1px solid var(--accent);
+  font-size: 0.9rem;
+}
+
+.footer p {
+  margin-bottom: 0.5rem;
+}
+
+
+
+/* ========================================= */
+/* SEARCH INLINE DAN TRANSISI HORIZONTAL */
+/* ========================================= */
+
+.search-form {
+    /* Container Input (Default: Tersembunyi) */
+    display: flex; 
+    align-items: center;
+    
+    /* State Tersembunyi */
+    width: 0; 
+    opacity: 0;
+    /* Transisi untuk lebar dan opasitas agar mulus */
+    transition: width 0.3s ease-out, opacity 0.3s ease-out;
+    overflow: hidden; 
+}
+
+.search-form.active {
+    /* State Aktif */
+    width: 250px; /* ✅ Lebar target saat input terlihat */
+    opacity: 1;
+}
+
+.search-form input {
+    /* Styling Input */
+    width: 250px; /* Lebar input harus sesuai lebar container */
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    background-color: #444; 
+    color: white; 
+    border: 1px solid var(--accent);
+    outline: none;
+    font-size: 1rem;
+}
+
+/* ========================================= */
+/* FILTER CSS */
+/* ========================================= */
+.hide-on-search {
+    display: none !important;
+}
+
+
+/* ========================================= */
+/* MEDIA QUERIES (RESPONSIVE) - HYBRID APPROACH */
+/* ========================================= */
+
+/* ---------- Laptop / Desktop Small (1366px) ---------- */
+@media (max-width: 1366px) {
+  html {
+    font-size: 75%;
+  }
+}
+
+/* ---------- Tablet & Mobile (768px) ---------- */
+@media (max-width: 768px) {
+  /* GLOBAL FONT & PADDING */
+  html {
+    font-size: 62.5%; /* Atur ulang rem base ke 10px (62.5% dari 16px) */
+  }
+
+  :root {
+    --section-padding: 6rem 5% 1.4rem; /* Kurangi padding samping */
+  }
+
+  .hero .content h1 {
+    font-size: 4rem; /* Turunkan ukuran heading hero */
+  }
+
+  .about h2,
+  .service h2,
+  .project h2,
+  .contact h2 {
+    font-size: 2.2rem; /* Turunkan ukuran heading section */
+    margin-bottom: 2rem;
+  }
+  
+  /* NAVBAR MOBILE LOGIC (TIDAK BERUBAH) */
+  #hamburger-menu {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .navbar .navbar-extra .search-form, 
+  .navbar .navbar-extra #search {
+    display: none;
+  }
+
+  .navbar .navbar-nav {
+    /* ... (CSS menu overlay Anda yang lama) ... */
+    position: absolute;
+    top: 100%;
+    right: -100%;
+    width: 80vw;
+    max-width: 300px;
+    height: 100vh;
+    background-color: var(--primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 5rem;
+    transition: right 0.3s ease-in-out;
+    z-index: 999;
+  }
+
+  .navbar .navbar-nav.active {
+    right: 0;
+  }
+
+  .navbar .navbar-nav a {
+    color: var(--secondary);
+    display: block;
+    margin: 1.5rem 0;
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .navbar .navbar-nav a::before {
+    display: none;
+  }
+  
+  /* ========================================= */
+  /* LANYARD & ABOUT SECTION (Pseudo-2 Kolom) */
+  /* ========================================= */
+  .about-row {
+    /* Mencegah tumpukan vertikal, kembali ke flow/float */
+    flex-direction: row; 
+    align-items: flex-start; /* Alignment atas */
+    flex-wrap: wrap; /* Izinkan wrapping jika tidak muat */
+    gap: 1.5rem; /* Kurangi gap */
+  }
+
+  /* Lanyard di Kiri (diatur ukurannya di Lanyard.css) */
+  .lanyard-wrapper {
+    /* Kunci: Membuat Lanyard mengambil ruang kecil, dan teks mengalir */
+    flex: 0 0 120px; /* Ukuran lebar yang diperkecil */
+    height: 350px; /* Tinggi akan diatur di Lanyard.css */
+    order: 1;
+    margin: 0 1.5rem 1rem 0; /* Margin agar teks tidak menempel */
+    min-width: unset; 
+  }
+
+  /* About Content (Teks) */
+  .about-content {
+    order: 2;
+    flex: 1 1 calc(100% - 150px); /* Ambil sisa ruang */
+    /* ✅ Teks harus rata kiri di setup flow/pseudo-2 kolom */
+    text-align: left; 
+    padding: 0;
+  }
+  .about-content p {
+    text-align: left; /* Teks harus rata kiri agar mudah dibaca */
+    font-size: 1.2rem; /* Penyesuaian font size teks konten */
+  }
+  
+  /* LOGO LOOP (OVERRIDE DARI logoloop.css) */
+.footer > div {
+    /* Override variabel LogoLoop yang didefinisikan di logoloop.css */
+    --logoloop-gap: 20px; /* Jarak antar logo lebih kecil (32px default) */
+    --logoloop-logoHeight: 20px; /* Ukuran ikon lebih kecil (28px default) */
+    /* Opsional: Tentukan tinggi container footer yang berisi LogoLoop */
+    height: 40px !important; 
+}
+
+
+}
+
+/* ---------- Mobile Kecil (450px) ---------- */
+@media (max-width: 450px) {
+  html {
+    font-size: 50%; /* Lebih kecil lagi */
+  }
+  
+  .navbar .navbar-logo {
+    width: 30px;
+  }
+  .navbar .navbar-logo-text {
+    font-size: 1.5rem;
+  }
+
+  .hero .content h1 {
+    font-size: 3rem;
+  }
+  
+  /* LANYARD SANGAT KECIL (untuk layar 320-450px) */
+  .lanyard-wrapper {
+    flex: 0 0 90px;
+    height: 250px;
+  }
+  
+  .about-content {
+    flex: 1 1 calc(100% - 110px); /* Ambil sisa ruang */
+  }
+
+  .footer > div {
+        /* Lebih kecil lagi di hp */
+        --logoloop-gap: 15px; /* Jarak minimal */
+        --logoloop-logoHeight: 1px; /* Ikon sangat kecil */
+        height: 30px !important; 
+    }
+
+}

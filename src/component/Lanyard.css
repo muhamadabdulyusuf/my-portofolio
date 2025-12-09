@@ -1,0 +1,27 @@
+
+
+.lanyard-wrapper {
+  /* background-color: yellowgreen; */
+ width: 100%; 
+    height: 100vh;
+  display: flexbox; /* Tinggi yang kita sepakati */
+  justify-content: right;
+  align-items: right;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  position: absolute;
+  font-size: clamp(2rem, 6vw, 6rem);
+  font-weight: 900;
+  color: rgb(39, 30, 55);
+
+  z-index: 20;
+}
+
+
+@media (max-width: 768px) {
+    .lanyard-wrapper {
+        height: 50vh; /* Contoh: hanya setengah layar di mobile */
+    }
+}

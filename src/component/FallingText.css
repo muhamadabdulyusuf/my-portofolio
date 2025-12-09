@@ -1,0 +1,98 @@
+/* FallingText.css - KONTROL PENUH FONT SIZE DI SINI */
+
+:root {
+  --colorlogo1: #1b2096;
+  --colorlogo2: #dadada;
+  --colorlogo3: #ec6632;
+  --colorlogo4: #16ccc3;
+  --colorlogo5: #89497d;
+  --colorlogo6: #105b9e;
+}
+
+.demo {
+  display: flex;
+  position: relative;
+  /* Atur tinggi default desktop yang proporsional */
+  height: 250px; 
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  background-color: #0e2b512f;
+  
+}
+
+.falling-text-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  text-align: center;
+  padding-top: 2rem;
+
+  /* ✅ UKURAN FONT DEFAULT (DESKTOP) DITENTUKAN DI SINI */
+  font-size: 2rem; 
+}
+
+.falling-text-target {
+  display: inline-block;
+  
+}
+
+.word {
+  display: inline-block;
+  margin: 0 2px;
+  user-select: none;
+    font-size: 2rem; 
+    font-weight: bold;
+}
+
+.highlighted {
+  filter: drop-shadow(0 0 2px rgba(0,0,0,0.2));
+  font-weight: bold;
+}
+
+.highlighted1 {
+  color: #105b9e;
+  font-weight: bold;
+}
+
+.falling-text-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+/* ========================================= */
+/* RESPONSIVITAS KHUSUS MOBILE */
+/* ========================================= */
+
+@media (max-width: 768px) {
+    .demo {
+        height: 180px; 
+    }
+    .falling-text-container {
+        padding-top: 1em; 
+        font-size: 1.5rem; /* Ukuran font mobile */
+    }
+    .word {
+    font-size: 1.5rem; 
+    font-weight: bold;
+}
+}
+
+@media (max-width: 450px) {
+    .demo {
+        height: 120px; 
+    }
+    .falling-text-container {
+        padding-top: 0.8em; 
+        font-size: 1.2rem; 
+        font-weight: bold;
+    }
+    .word {
+    font-size: 1.2rem; 
+}
+}
