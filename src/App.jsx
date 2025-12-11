@@ -12,7 +12,7 @@ import FallingText from "./component/FallingText";
 import ScrollReveal from "./component/ScrollReveal";
 import LogoLoop from "./component/LogoLoop";
 
-// Library Icons (SEMUA HARUS DI BAGIAN ATAS INI)
+// Library Icons 
 import {
   SiWhatsapp,
   SiInstagram,
@@ -21,7 +21,7 @@ import {
   SiGithub,
   SiGmail,
 } from "react-icons/si";
-// Icon untuk Form Status (Ini dipindahkan ke sini agar tidak crash)
+// Icon untuk Form Status
 import { FiLoader, FiCheckCircle, FiAlertCircle } from "react-icons/fi"; 
 
 
@@ -41,14 +41,18 @@ function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false); 
   
   // Kunci Akses Web3Forms diambil dari .env.local 
+  // VARIABEL INI HARUS ADA DI .env LOKAL DAN DI KONFIGURASI VERCEL
   const ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
   
   const onSubmit = async (event) => {
     event.preventDefault();
 
+    // Check untuk menghindari crash saat Vercel Key hilang
     if (!ACCESS_KEY) {
       setResult("Error: Web3Forms access key is missing in .env file. Check VITE_WEB3FORMS_ACCESS_KEY.");
-      console.error("Web3Forms ACCESS KEY IS MISSING!");
+      console.error("Web3Forms ACCESS KEY IS MISSING! (Check Vercel Environment Variables)");
+      setIsSubmitting(false); // Pastikan tombol tidak terkunci
+      setTimeout(() => setResult(''), 5000); 
       return; 
     }
 
@@ -58,7 +62,7 @@ function ContactForm() {
     const formData = new FormData(event.target);
     formData.append("access_key", ACCESS_KEY);
     formData.append("subject", "Pesan Baru dari Portofolio Web Abdul");
-    formData.append("botcheck", ""); // Honeypot sederhana
+    formData.append("botcheck", ""); 
 
     try {
         const response = await fetch("https://api.web3forms.com/submit", {
@@ -71,14 +75,12 @@ function ContactForm() {
             setResult("Form Submitted Successfully!");
             event.target.reset();
         } else {
-            // Menampilkan pesan error dari Web3Forms
             setResult(data.message || "Error submitting form. Please try again.");
         }
     } catch (error) {
         setResult("Network Error. Please try again later.");
     } finally {
         setIsSubmitting(false); 
-        // Hapus pesan status setelah 5 detik
         setTimeout(() => setResult(''), 5000); 
     }
   };
@@ -91,7 +93,6 @@ function ContactForm() {
 
       <button type="submit" disabled={isSubmitting} className="submit-btn">
           {isSubmitting ? (
-              // Icon berputar saat mengirim
               <>
                   <FiLoader className="loading-icon" /> Mengirim...
               </>
@@ -244,9 +245,9 @@ function App() {
         <h2>My Recent <span>Work</span></h2>
         <p className="project-subheading">Beberapa proyek dan hasil kerja yang menunjukkan keahlian saya.</p>
         <div className="project-row">
-          <div className="project-card"><img src={projectImage} alt="Project A" className="project-card-img" /><h3 className="project-card-title">Project: Inventory Management</h3><p className="project-card-description">Sistem inventaris otomatis yang memangkas proses manual. Input data penjualan, sistem menghitung sisa stok dan bahan baku secara real-time menggunakan formula Excel.</p><a href="https://drive.google.com/drive/folders/1QEbfEMCTRlQiKwlsjx_VY4u_67QaNotp?usp=drive_link" className="project-link">Download Now <i data-feather="arrow-right"></i></a></div>
-          <div className="project-card"><img src={projectImage} alt="Project B" className="project-card-img" /><h3 className="project-card-title">Project: Internal Comms Hub</h3><p className="project-card-description">Perancangan hub komunikasi internal untuk tim remote.</p><a href="#" className="project-link">Download Now <i data-feather="arrow-right"></i></a></div>
-          <div className="project-card"><img src={projectImage} alt="Project C" className="project-card-img" /><h3 className="project-card-title">Project: Portofolio Web UI</h3><p className="project-card-description">Pengembangan front-end portofolio interaktif dengan 3D.</p><a href="#" className="project-link">View Case Study <i data-feather="arrow-right"></i></a></div>
+          <div className="project-card"><img src={projectImage} alt="Project: Inventory Management" className="project-card-img" /><h3 className="project-card-title">Project: Inventory Management</h3><p className="project-card-description">Sistem inventaris otomatis yang memangkas proses manual. Input data penjualan, sistem menghitung sisa stok dan bahan baku secara real-time menggunakan formula Excel.</p><a href="https://drive.google.com/drive/folders/1QEbfEMCTRlQiKwlsjx_VY4u_67QaNotp?usp=drive_link" className="project-link">Download Now <i data-feather="arrow-right"></i></a></div>
+          <div className="project-card"><img src={projectImage} alt="Project: Internal Comms Hub" className="project-card-img" /><h3 className="project-card-title">Project: Internal Comms Hub</h3><p className="project-card-description">Perancangan hub komunikasi internal untuk tim remote.</p><a href="#" className="project-link">Download Now <i data-feather="arrow-right"></i></a></div>
+          <div className="project-card"><img src={projectImage} alt="Project: Portofolio Web UI" className="project-card-img" /><h3 className="project-card-title">Project: Portofolio Web UI</h3><p className="project-card-description">Pengembangan front-end portofolio interaktif dengan 3D.</p><a href="#" className="project-link">View Case Study <i data-feather="arrow-right"></i></a></div>
         </div>
       </section>
 
