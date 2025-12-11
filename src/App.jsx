@@ -232,21 +232,33 @@ function App() {
         </div>
         <div className="service-cards-container">
           <div className="service-card">
-            <img src={serviceImage} alt="Email Management" className="service-card-img" />
+            <i data-feather="mail" className="service-icon"></i>
             <h3>Email Management</h3>
-            <p> Mengelola inbox, menyusun komunikasi profesional, dan memastikan alur kerja email yang terstruktur. </p>
+            <p> Mengatur lalu lintas pesan masuk (inbox), menyusun draf balasan profesional, serta melakukan kurasi email penting agar komunikasi bisnis tetap berjalan lancar tanpa ada informasi yang terlewat.</p>
             <a href="#contact" className="service-cta"> Learn More </a>
           </div>
           <div className="service-card">
-            <i data-feather="trello" className="service-icon"></i>
-            <h3>Project Coordination</h3>
-            <p> Mengawasi proyek digital dari perencanaan hingga peluncuran, memastikan tenggat waktu dan kualitas terpenuhi. </p>
+            <i data-feather="layers" className="service-icon"></i>
+            <h3>Microsoft Office</h3>
+            <p> Mahir mengoperasikan Word untuk penyusunan dokumen dan laporan formal, Excel untuk pengolahan data serta rumus otomatis (VLOOKUP/Pivot), dan PowerPoint untuk mendesain presentasi bisnis yang informatif.</p>
             <a href="#contact" className="service-cta"> Learn More </a>
           </div>
           <div className="service-card">
-            <i data-feather="code" className="service-icon"></i>
-            <h3>Front-End Support</h3>
-            <p> Dukungan teknis dan pengembangan ringan untuk tampilan website, fokus pada UI/UX yang optimal. </p>
+            <i data-feather="clipboard" className="service-icon"></i>
+            <h3>Administrative</h3>
+            <p> Menyediakan dukungan operasional mulai dari entri data yang akurat, manajemen jadwal harian (calendar), hingga pengarsipan dokumen digital secara sistematis untuk meningkatkan efisiensi kerja.</p>
+            <a href="#contact" className="service-cta"> Learn More </a>
+          </div>
+          <div className="service-card">
+            <i data-feather="share-2" className="service-icon"></i>
+            <h3>Sosial Media Management</h3>
+            <p> Mengelola kehadiran digital melalui perencanaan konten yang konsisten, pembuatan draf caption, serta memantau interaksi audiens untuk membangun engagement yang positif di berbagai platform.</p>
+            <a href="#contact" className="service-cta"> Learn More </a>
+          </div>
+          <div className="service-card">
+            <i data-feather="pen-tool" className="service-icon"></i>
+            <h3>Design</h3>
+            <p> Menyediakan jasa desain grafis kreatif untuk kebutuhan promosi, mulai dari pembuatan konten media sosial (Instagram/Facebook), desain presentasi, hingga elemen visual lainnya menggunakan Canva atau Photoshop.</p>
             <a href="#contact" className="service-cta"> Learn More </a>
           </div>
         </div>
@@ -258,15 +270,15 @@ function App() {
         <div className="project-row">
           <div className="project-card">
             <img src={projectImage} alt="Project A" className="project-card-img" />
-            <h3 className="project-card-title"> Project: E-Commerce Data Sync </h3>
-            <p className="project-card-description"> Otomasi sinkronisasi data pelanggan antara CRM dan e-commerce, meningkatkan akurasi data hingga 99%. </p>
-            <a href="#" className="project-link"> View Case Study <i data-feather="arrow-right"></i> </a>
+            <h3 className="project-card-title"> Project: Inventory Management </h3>
+            <p className="project-card-description"> Sistem inventaris otomatis yang memangkas proses manual. Cukup input data penjualan, sistem akan secara otomatis menghitung sisa stok dan bahan baku yang terpakai secara real-time menggunakan formula Excel tingkat lanjut.</p>
+            <a href="https://drive.google.com/drive/folders/1QEbfEMCTRlQiKwlsjx_VY4u_67QaNotp?usp=drive_link" className="project-link"> Download Now <i data-feather="arrow-right"></i> </a>
           </div>
           <div className="project-card">
             <img src={projectImage} alt="Project B" className="project-card-img" />
             <h3 className="project-card-title"> Project: Internal Comms Hub </h3>
             <p className="project-card-description"> Perancangan hub komunikasi internal untuk tim remote. </p>
-            <a href="#" className="project-link"> View Case Study <i data-feather="arrow-right"></i> </a>
+            <a href="#" className="project-link"> Download Now <i data-feather="arrow-right"></i> </a>
           </div>
           <div className="project-card">
             <img src={projectImage} alt="Project C" className="project-card-img" />
