@@ -1,16 +1,18 @@
-import logoImage from "./assets/ABDUL_COMPANY.png";
-import serviceImage from "./assets/1757928406747.png";
-import projectImage from "./assets/squre.jpg";
+// ====================== IMPORTS ======================
+import React, { useState, useEffect, useRef } from "react";
 
-import { useState, useEffect, useRef } from "react";
+// Pastikan path dan file ini ada di folder Anda
+import logoImage from "./assets/ABDUL_COMPANY.png";
+import projectImage from "./assets/squre.jpg";
 import "./App.css";
 
-// Komponen kustom
+// Komponen custom (Pastikan file-file ini ada di folder './component')
 import Lanyard from "./component/Lanyard";
 import FallingText from "./component/FallingText";
 import ScrollReveal from "./component/ScrollReveal";
 import LogoLoop from "./component/LogoLoop";
 
+// Library Icons (SEMUA HARUS DI BAGIAN ATAS INI)
 import {
   SiWhatsapp,
   SiInstagram,
@@ -19,7 +21,11 @@ import {
   SiGithub,
   SiGmail,
 } from "react-icons/si";
+// Icon untuk Form Status (Ini dipindahkan ke sini agar tidak crash)
+import { FiLoader, FiCheckCircle, FiAlertCircle } from "react-icons/fi"; 
 
+
+// ====================== DATA ======================
 const techLogos = [
   { node: <SiWhatsapp />, title: "WhatsApp Communication", href: "https://wa.me/6282320681141" },
   { node: <SiInstagram />, title: "Instagram Management", href: "https://www.instagram.com/ab_duullll/" },
@@ -29,279 +35,231 @@ const techLogos = [
   { node: <SiGithub />, title: "GitHub", href: "https://github.com/muhamadabdulyusuf" },
 ];
 
-function App() {
-  // ====================== STATE MANAGEMENT =======================
+// ====================== CONTACT FORM ======================
+function ContactForm() {
+  const [result, setResult] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false); 
   
+  // Kunci Akses Web3Forms diambil dari .env.local 
+  const ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+  
+  const onSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!ACCESS_KEY) {
+      setResult("Error: Web3Forms access key is missing in .env file. Check VITE_WEB3FORMS_ACCESS_KEY.");
+      console.error("Web3Forms ACCESS KEY IS MISSING!");
+      return; 
+    }
+
+    setIsSubmitting(true); 
+    setResult("Sending...."); 
+    
+    const formData = new FormData(event.target);
+    formData.append("access_key", ACCESS_KEY);
+    formData.append("subject", "Pesan Baru dari Portofolio Web Abdul");
+    formData.append("botcheck", ""); // Honeypot sederhana
+
+    try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            setResult("Form Submitted Successfully!");
+            event.target.reset();
+        } else {
+            // Menampilkan pesan error dari Web3Forms
+            setResult(data.message || "Error submitting form. Please try again.");
+        }
+    } catch (error) {
+        setResult("Network Error. Please try again later.");
+    } finally {
+        setIsSubmitting(false); 
+        // Hapus pesan status setelah 5 detik
+        setTimeout(() => setResult(''), 5000); 
+    }
+  };
+
+  return (
+    <form onSubmit={onSubmit} className="contact-form">
+      <input type="text" name="name" placeholder="Nama Anda" required disabled={isSubmitting} />
+      <input type="email" name="email" placeholder="Email Anda" required disabled={isSubmitting} />
+      <textarea name="message" placeholder="Pesan Anda" required disabled={isSubmitting}></textarea>
+
+      <button type="submit" disabled={isSubmitting} className="submit-btn">
+          {isSubmitting ? (
+              // Icon berputar saat mengirim
+              <>
+                  <FiLoader className="loading-icon" /> Mengirim...
+              </>
+          ) : (
+              "Submit Form"
+          )}
+      </button>
+
+      {/* Menampilkan status dengan icon yang lebih visual */}
+      {result && result !== "Sending...." && (
+        <span className={`form-status ${result.includes("Success") ? 'success' : 'error'}`}>
+          {result.includes("Success") ? <FiCheckCircle /> : <FiAlertCircle />} {result}
+        </span>
+      )}
+    </form>
+  );
+}
+
+// ====================== APP ======================
+function App() {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const navbarRef = useRef(null);
   const hamburgerRef = useRef(null);
-  
-  const [isSearchVisible, setIsSearchVisible] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(''); 
-  const searchInputRef = useRef(null); 
+  const searchInputRef = useRef(null);
 
-  // ====================== HANDLER FUNCTIONS =======================
-  
   const handleHamburgerClick = () => {
     setIsNavbarOpen((prev) => !prev);
     if (isSearchVisible) setIsSearchVisible(false);
   };
-  
-  // ✅ HANDLER BARU: MEMBUKA KOTAK PENCARIAN
+
   const handleSearchClick = (e) => {
-      e.preventDefault(); 
-      
-      // Jika sudah terlihat (dan ada teks), panggil submit
-      if (isSearchVisible && searchTerm.length > 0) {
-          handleSearchSubmit(e);
-          return;
-      }
-      
-      // Buka kotak (tanpa reset jika sudah terbuka, tapi kali ini kita paksa buka)
-      setIsSearchVisible(true); 
-      setSearchTerm(''); 
-      if (isNavbarOpen) setIsNavbarOpen(false); 
-
-      // Fokuskan input setelah elemen diaktifkan oleh CSS
-      setTimeout(() => {
-          searchInputRef.current?.focus();
-      }, 50); 
+    e.preventDefault();
+    if (isSearchVisible && searchTerm.length > 0) {
+      handleSearchSubmit(e);
+      return;
+    }
+    setIsSearchVisible(true);
+    setSearchTerm("");
+    if (isNavbarOpen) setIsNavbarOpen(false);
+    setTimeout(() => searchInputRef.current?.focus(), 50);
   };
-  
-  // ✅ HANDLER BARU: SUBMIT (DI PANGGIL DENGAN KLIK IKON LAGI)
+
   const handleSearchSubmit = (e) => {
-      e.preventDefault(); 
-      
-      // Sembunyikan kotak dan hapus pencarian
-      setIsSearchVisible(false);
-      setSearchTerm(''); // Ini akan memicu filter untuk menampilkan semua
+    e.preventDefault();
+    setIsSearchVisible(false);
+    setSearchTerm("");
   };
 
-  const handleSearchChange = (event) => {
-      setSearchTerm(event.target.value);
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
   };
-  
-  // ====================== EFFECT HOOKS (Filtering & Feather) =======================
-
-  useEffect(() => {
-    // Logika Filtering Konten
-    if (searchTerm.length > 0) {
-        const query = searchTerm.toLowerCase();
-        
-        const searchableSections = document.querySelectorAll(
-            '#about, #service, #project, #contact, .hero' 
-        );
-
-        searchableSections.forEach(section => {
-            const textContent = section.textContent.toLowerCase();
-            
-            if (textContent.includes(query)) {
-                section.classList.remove('hide-on-search');
-            } else {
-                section.classList.add('hide-on-search');
-            }
-        });
-    } else {
-        // Tampilkan semua jika kotak pencarian kosong
-        document.querySelectorAll('.hide-on-search').forEach(element => {
-            element.classList.remove('hide-on-search');
-        });
-    }
-    
-    // Handler klik di luar
-    function handleOutsideClick(event) {
-      const isClickOnHamburger = hamburgerRef.current && hamburgerRef.current.contains(event.target);
-      const isClickOnNavbar = navbarRef.current && navbarRef.current.contains(event.target);
-      const isClickOnSearchIcon = event.target.closest('#search');
-      
-      const isClickOnSearchForm = searchInputRef.current && searchInputRef.current.closest('.search-form')?.contains(event.target);
-
-      // Jika Search terlihat dan klik di luar input DAN ikon search, sembunyikan
-      if (isSearchVisible && !isClickOnSearchForm && !isClickOnSearchIcon) {
-          setIsSearchVisible(false);
-          setSearchTerm('');
-      }
-
-
-      if (!isClickOnNavbar && !isClickOnHamburger && !isClickOnSearchIcon) {
-        setIsNavbarOpen(false);
-      }
-    }
-
-    document.addEventListener("click", handleOutsideClick);
-    return () => {
-        document.removeEventListener("click", handleOutsideClick);
-    };
-  }, [isNavbarOpen, searchTerm, isSearchVisible]); 
-
 
   useEffect(() => {
     if (window.feather) {
-      window.feather.replace();
+        window.feather.replace();
     }
-    // Tambahkan event listener untuk Enter di seluruh dokumen
-    const handleGlobalKeyDown = (e) => {
-      if (e.key === 'Enter' && isSearchVisible) {
-        handleSearchSubmit(e);
+
+    const handleOutsideClick = (event) => {
+      const isClickOnHamburger = hamburgerRef.current?.contains(event.target);
+      const isClickOnNavbar = navbarRef.current?.contains(event.target);
+      const isClickOnSearchIcon = event.target.closest("#search");
+      const isClickOnSearchForm = searchInputRef.current?.closest(".search-form")?.contains(event.target);
+
+      if (isSearchVisible && !isClickOnSearchForm && !isClickOnSearchIcon) {
+        setIsSearchVisible(false);
+        setSearchTerm("");
+      }
+      if (!isClickOnNavbar && !isClickOnHamburger && !isClickOnSearchIcon) {
+        setIsNavbarOpen(false);
       }
     };
 
-    document.addEventListener('keydown', handleGlobalKeyDown);
-    return () => {
-        document.removeEventListener('keydown', handleGlobalKeyDown);
+    document.addEventListener("click", handleOutsideClick);
+    return () => document.removeEventListener("click", handleOutsideClick);
+  }, [isNavbarOpen, isSearchVisible]);
+
+  useEffect(() => {
+    const handleGlobalKeyDown = (e) => {
+      if (e.key === "Enter" && isSearchVisible) handleSearchSubmit(e);
     };
-  }, [isSearchVisible, searchTerm]); // Tambahkan searchTerm sebagai dependency agar submit bisa melihat nilainya
+    document.addEventListener("keydown", handleGlobalKeyDown);
+    return () => document.removeEventListener("keydown", handleGlobalKeyDown);
+  }, [isSearchVisible]);
 
   return (
     <>
-      {/* ========================================= NAVBAR ========================================= */}
+      {/* NAVBAR */}
       <div className="navbar">
         <div className="logo">
-          <img
-            className="navbar-logo"
-            src={logoImage}
-            alt="Logo Abdul Company"
-          />
-          <a className="navbar-logo-text" href="#home">
-            abdul
-          </a>
+          <img src={logoImage} className="navbar-logo" alt="Logo Abdul Company" />
+          <a className="navbar-logo-text" href="#home">abdul</a>
         </div>
-
-        <div
-          ref={navbarRef}
-          className={`navbar-nav ${isNavbarOpen ? "active" : ""}`}
-        >
+        <div ref={navbarRef} className={`navbar-nav ${isNavbarOpen ? "active" : ""}`}>
           <a href="#home">Home</a>
           <a href="#about">About Me</a>
           <a href="#service">Service</a>
           <a href="#project">Project</a>
         </div>
-
         <div className="navbar-extra">
-          {/* ✅ KOTAK SEARCH MENGGUNAKAN CLASS ACTIVE */}
-          <div className={`search-form ${isSearchVisible ? 'active' : ''}`}>
-              <input 
-                  ref={searchInputRef}
-                  type="text" 
-                  id="search-input"
-                  placeholder="Cari..."
-                  value={searchTerm} 
-                  onChange={handleSearchChange}
-              />
+          <div className={`search-form ${isSearchVisible ? "active" : ""}`}>
+            <input ref={searchInputRef} type="text" placeholder="Cari..." value={searchTerm} onChange={handleSearchChange} />
           </div>
-
-          <a href="#" id="search" onClick={handleSearchClick}> 
-            <i data-feather="search"></i>
-          </a>
-
-          <button
-            id="hamburger-menu"
-            ref={hamburgerRef}
-            onClick={handleHamburgerClick}
-            className="hamburger-btn"
-          >
-            <i data-feather="menu"></i>
-          </button>
+          <a href="#" id="search" onClick={handleSearchClick}><i data-feather="search"></i></a>
+          <button ref={hamburgerRef} className="hamburger-btn" onClick={handleHamburgerClick}><i data-feather="menu"></i></button>
         </div>
       </div>
-      
-      {/* ========================================= KONTEN LAINNYA ========================================= */}
+
+      {/* HERO */}
       <section className="hero" id="home">
         <main className="content">
-          <h1> MUHAMAD <span>ABDUL YUSUF</span> </h1>
-          <p> Saya adalah seorang [Posisi Anda], siap membantu bisnis Anda mencapai efisiensi operasional tertinggi melalui manajemen digital yang strategis. </p>
-          <a href="#contact" className="cta"> Contact Me </a>
+          <h1>MUHAMAD <span>ABDUL YUSUF</span></h1>
+          <p>Saya adalah seorang profesional di bidang Hospitality dan Virtual Assistant, siap membantu menghadirkan layanan yang efisien, responsif, dan berorientasi pada kebutuhan klien maupun tamu melalui dukungan operasional yang strategis dan pelayanan terbaik.</p>
+          <a href="#contact" className="cta">Contact Me</a>
         </main>
       </section>
 
       <div className="lanyard-wrapper"><Lanyard /></div>
 
+      {/* ABOUT */}
       <section id="about" className="about">
         <h2>About <span>Me</span></h2>
         <div className="about-row">
-          <div className="about-content"><ScrollReveal baseOpacity={0.1} enableBlur={0} baseRotation={0} blurStrength={0.2}>
-              I am an aspiring Virtual Assistant with a strong foundation in hospitality and administrative support. Proficient in Microsoft Word and Excel (including functions such as VLOOKUP and Pivot Tables), I have experience in handling reports, correspondence, and proposal writing. With basic design skills and a detail-oriented mindset, I am committed to providing reliable support while continuously developing my expertise to deliver even greater value to clients. Confidentiality and trust are my top priorities. I handle every document and communication with discretion and professionalism, ensuring that sensitive information remains secure at all times.
-            </ScrollReveal></div>
+          <div className="about-content">
+            <ScrollReveal baseOpacity={0.1} enableBlur={0} baseRotation={0} blurStrength={0.2}>
+              Hai! Saya Muhamad Abdul Yusuf. Berpengalaman di dunia hospitality, berangkat dari Food & Beverage Service. Suka kerja yang dinamis, ketemu banyak orang, dan kasih pelayanan yang bikin tamu merasa nyaman dan puas. Selain itu, saya juga jalanin kerjaan sebagai Virtual Assistant. Biasanya bantu ngatur jadwal, bikin dokumen, riset, atau tugas-tugas ringan lainnya.
+            </ScrollReveal>
+          </div>
         </div>
       </section>
 
+      {/* SERVICE */}
       <section id="service" className="service">
         <h2>What I Bring <span>to Your Table</span></h2>
         <div className="demo">
           <FallingText text={"Email Management Administrative Sosial Media Management Excel Word Power Point"} highlightWords={["..."]} highlightClass="highlighted" trigger="hover" backgroundColor="transparent" gravity={0.56} mouseConstraintStiffness={0.9} />
         </div>
         <div className="service-cards-container">
-          <div className="service-card">
-            <i data-feather="mail" className="service-icon"></i>
-            <h3>Email Management</h3>
-            <p> Mengatur lalu lintas pesan masuk (inbox), menyusun draf balasan profesional, serta melakukan kurasi email penting agar komunikasi bisnis tetap berjalan lancar tanpa ada informasi yang terlewat.</p>
-            <a href="#contact" className="service-cta"> Learn More </a>
-          </div>
-          <div className="service-card">
-            <i data-feather="layers" className="service-icon"></i>
-            <h3>Microsoft Office</h3>
-            <p> Mahir mengoperasikan Word untuk penyusunan dokumen dan laporan formal, Excel untuk pengolahan data serta rumus otomatis (VLOOKUP/Pivot), dan PowerPoint untuk mendesain presentasi bisnis yang informatif.</p>
-            <a href="#contact" className="service-cta"> Learn More </a>
-          </div>
-          <div className="service-card">
-            <i data-feather="clipboard" className="service-icon"></i>
-            <h3>Administrative</h3>
-            <p> Menyediakan dukungan operasional mulai dari entri data yang akurat, manajemen jadwal harian (calendar), hingga pengarsipan dokumen digital secara sistematis untuk meningkatkan efisiensi kerja.</p>
-            <a href="#contact" className="service-cta"> Learn More </a>
-          </div>
-          <div className="service-card">
-            <i data-feather="share-2" className="service-icon"></i>
-            <h3>Sosial Media Management</h3>
-            <p> Mengelola kehadiran digital melalui perencanaan konten yang konsisten, pembuatan draf caption, serta memantau interaksi audiens untuk membangun engagement yang positif di berbagai platform.</p>
-            <a href="#contact" className="service-cta"> Learn More </a>
-          </div>
-          <div className="service-card">
-            <i data-feather="pen-tool" className="service-icon"></i>
-            <h3>Design</h3>
-            <p> Menyediakan jasa desain grafis kreatif untuk kebutuhan promosi, mulai dari pembuatan konten media sosial (Instagram/Facebook), desain presentasi, hingga elemen visual lainnya menggunakan Canva atau Photoshop.</p>
-            <a href="#contact" className="service-cta"> Learn More </a>
-          </div>
+          <div className="service-card"><i data-feather="mail" className="service-icon"></i><h3>Email Management</h3><p>Mengatur lalu lintas pesan masuk (inbox), menyusun draf balasan profesional, serta melakukan kurasi email penting agar komunikasi bisnis tetap berjalan lancar.</p><a href="#contact" className="service-cta">Learn More</a></div>
+          <div className="service-card"><i data-feather="layers" className="service-icon"></i><h3>Microsoft Office</h3><p>Mahir mengoperasikan Word, Excel, dan PowerPoint untuk mendukung kebutuhan bisnis dan presentasi.</p><a href="#contact" className="service-cta">Learn More</a></div>
+          <div className="service-card"><i data-feather="clipboard" className="service-icon"></i><h3>Administrative</h3><p>Menyediakan dukungan operasional mulai dari entri data, manajemen jadwal, hingga pengarsipan dokumen digital.</p><a href="#contact" className="service-cta">Learn More</a></div>
+          <div className="service-card"><i data-feather="share-2" className="service-icon"></i><h3>Sosial Media Management</h3><p>Mengelola kehadiran digital melalui perencanaan konten yang konsisten dan memantau interaksi audiens.</p><a href="#contact" className="service-cta">Learn More</a></div>
+          <div className="service-card"><i data-feather="pen-tool" className="service-icon"></i><h3>Design</h3><p>Menyediakan jasa desain grafis kreatif untuk kebutuhan promosi, konten media sosial, dan presentasi.</p><a href="#contact" className="service-cta">Learn More</a></div>
         </div>
       </section>
 
+      {/* PROJECT */}
       <section id="project" className="project">
         <h2>My Recent <span>Work</span></h2>
-        <p className="project-subheading"> Beberapa proyek dan hasil kerja yang menunjukkan keahlian saya. </p>
+        <p className="project-subheading">Beberapa proyek dan hasil kerja yang menunjukkan keahlian saya.</p>
         <div className="project-row">
-          <div className="project-card">
-            <img src={projectImage} alt="Project A" className="project-card-img" />
-            <h3 className="project-card-title"> Project: Inventory Management </h3>
-            <p className="project-card-description"> Sistem inventaris otomatis yang memangkas proses manual. Cukup input data penjualan, sistem akan secara otomatis menghitung sisa stok dan bahan baku yang terpakai secara real-time menggunakan formula Excel tingkat lanjut.</p>
-            <a href="https://drive.google.com/drive/folders/1QEbfEMCTRlQiKwlsjx_VY4u_67QaNotp?usp=drive_link" className="project-link"> Download Now <i data-feather="arrow-right"></i> </a>
-          </div>
-          <div className="project-card">
-            <img src={projectImage} alt="Project B" className="project-card-img" />
-            <h3 className="project-card-title"> Project: Internal Comms Hub </h3>
-            <p className="project-card-description"> Perancangan hub komunikasi internal untuk tim remote. </p>
-            <a href="#" className="project-link"> Download Now <i data-feather="arrow-right"></i> </a>
-          </div>
-          <div className="project-card">
-            <img src={projectImage} alt="Project C" className="project-card-img" />
-            <h3 className="project-card-title"> Project: Portofolio Web UI </h3>
-            <p className="project-card-description"> Pengembangan front-end portofolio interaktif dengan 3D. </p>
-            <a href="#" className="project-link"> View Case Study <i data-feather="arrow-right"></i> </a>
-          </div>
+          <div className="project-card"><img src={projectImage} alt="Project A" className="project-card-img" /><h3 className="project-card-title">Project: Inventory Management</h3><p className="project-card-description">Sistem inventaris otomatis yang memangkas proses manual. Input data penjualan, sistem menghitung sisa stok dan bahan baku secara real-time menggunakan formula Excel.</p><a href="https://drive.google.com/drive/folders/1QEbfEMCTRlQiKwlsjx_VY4u_67QaNotp?usp=drive_link" className="project-link">Download Now <i data-feather="arrow-right"></i></a></div>
+          <div className="project-card"><img src={projectImage} alt="Project B" className="project-card-img" /><h3 className="project-card-title">Project: Internal Comms Hub</h3><p className="project-card-description">Perancangan hub komunikasi internal untuk tim remote.</p><a href="#" className="project-link">Download Now <i data-feather="arrow-right"></i></a></div>
+          <div className="project-card"><img src={projectImage} alt="Project C" className="project-card-img" /><h3 className="project-card-title">Project: Portofolio Web UI</h3><p className="project-card-description">Pengembangan front-end portofolio interaktif dengan 3D.</p><a href="#" className="project-link">View Case Study <i data-feather="arrow-right"></i></a></div>
         </div>
       </section>
 
+      {/* CONTACT */}
       <section id="contact" className="contact">
         <h2>Get In <span>Touch</span></h2>
-        <p className="contact-subheading"> Tertarik berkolaborasi? Kirimkan pesan melalui formulir di bawah ini. </p>
+        <p className="contact-subheading">Tertarik berkolaborasi? Kirimkan pesan melalui formulir di bawah ini.</p>
         <div className="contact-form-container">
-          <form>
-            <input type="text" placeholder="Nama Lengkap" required />
-            <input type="email" placeholder="Email Aktif" required />
-            <textarea placeholder="Pesan Anda..." required></textarea>
-            <button type="submit" className="cta"> Send Message </button>
-          </form>
+          <ContactForm /> 
         </div>
       </section>
 
+      {/* FOOTER */}
       <footer className="footer">
         <div style={{ height: "50px", width: "100%", position: "relative", overflow: "hidden", marginBottom: "20px" }}>
           <LogoLoop logos={techLogos} speed={60} direction="left" logoHeight={25} gap={10} hoverSpeed={0} scaleOnHover={true} fadeOut fadeOutColor="#1A1A1A" ariaLabel="Technology stack used" />

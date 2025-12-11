@@ -7,10 +7,15 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies and Build Artifacts
 node_modules
 dist
 dist-ssr
 *.local
+
+# Environment Files (PENTING untuk menyembunyikan kunci rahasia)
+.env
+.env.local
 
 # Editor directories and files
 .vscode/*

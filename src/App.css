@@ -69,12 +69,12 @@ body {
 }
 
 .navbar .navbar-logo {
-  width: 40px; /* ✅ Proporsional */
+  width: 40px;
   height: auto;
 }
 
 .navbar .navbar-logo-text {
-  font-size: 1.8rem; /* ✅ Proporsional */
+  font-size: 1.8rem;
   font-weight: 700;
   color: var(--secondary);
 }
@@ -107,17 +107,14 @@ body {
   width: 100%;
 }
 
-/* ✅ PERBAIKAN POSISI NAVBAR-EXTRA */
 .navbar .navbar-extra {
     display: flex;
-    align-items: center; /* WAJIB: Memastikan input dan ikon sejajar */
-    gap: 0.5rem; /* Memberi sedikit jarak antar elemen */
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .navbar .navbar-extra a {
   color: var(--secondary);
-  /* Hilangkan margin horizontal di sini, diganti oleh gap di parent */
-  /* margin: 0 0.5rem; */ 
   transition: color 0.2s;
 }
 
@@ -125,12 +122,18 @@ body {
   color: var(--accent);
 }
 
-#hamburger-menu {
+/* PERBAIKAN HAMBURGER MENU */
+.hamburger-btn {
   background: none;
   border: none;
   cursor: pointer;
-  display: none;
+  color: var(--secondary);
+  /* DEFAULT: Sembunyikan di desktop */
+  display: none; 
 }
+/* END PERBAIKAN HAMBURGER MENU */
+
+
 /* ========================================= */
 /* HERO SECTION */
 /* ========================================= */
@@ -153,7 +156,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4); /* Overlay agar teks kontras */
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .hero .content {
@@ -202,7 +205,6 @@ body {
 /* ========================================= */
 /* COMMON SECTION STYLES */
 /* ========================================= */
-/* .about, */
 .about,
 .service,
 .project,
@@ -238,13 +240,12 @@ body {
   display: flex;
   align-items: flex-start;
   gap: 3rem;
-  /* ✅ PENTING: Margin Negatif untuk menarik About Row ke atas, menempel ke H2 */
-  margin-top: -2rem; /* Anda bisa coba -3rem atau -4rem jika kurang nempel */
+  margin-top: -2rem;
   flex-wrap: wrap;
   padding-bottom: 2rem;
 }
 .about-content {
-  flex: 1 1 50%; /* Teks mengambil setengah lebar */
+  flex: 1 1 50%;
   margin: 0;
   justify-content: center;
   text-align: center;
@@ -261,7 +262,7 @@ body {
   text-align: center;
   font-size: 1.5rem;
   line-height: 1.7;
-  margin-bottom: 1.5rem; /* Kurangi margin antar paragraf */
+  margin-bottom: 1.5rem;
   color: var(--secondary);
 }
 
@@ -407,45 +408,10 @@ body {
   font-size: 1.1rem;
 }
 
+/* Form Container (Hanya untuk centering dan padding) */
 .contact-form-container {
   max-width: 600px;
   margin: 0 auto;
-  padding: 2rem;
-  background-color: var(--hover-bg);
-  border-radius: 8px;
-  box-shadow: 0 5px 15px var(--shadow);
-}
-
-.contact-form-container form {
-  display: flex;
-  flex-direction: column;
-}
-
-.contact-form-container input,
-.contact-form-container textarea {
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  border-radius: 4px;
-  background-color: var(--primary);
-  border: 1px solid rgba(0, 180, 255, 0.4);
-  color: var(--secondary);
-  font-size: 1rem;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.contact-form-container input:focus,
-.contact-form-container textarea:focus {
-  border-color: var(--accent);
-}
-
-.contact-form-container textarea {
-  resize: vertical;
-  min-height: 150px;
-}
-
-.contact-form-container .cta {
-  align-self: flex-start;
 }
 
 /* ========================================= */
@@ -470,27 +436,21 @@ body {
 /* ========================================= */
 
 .search-form {
-    /* Container Input (Default: Tersembunyi) */
     display: flex; 
     align-items: center;
-    
-    /* State Tersembunyi */
     width: 0; 
     opacity: 0;
-    /* Transisi untuk lebar dan opasitas agar mulus */
     transition: width 0.3s ease-out, opacity 0.3s ease-out;
     overflow: hidden; 
 }
 
 .search-form.active {
-    /* State Aktif */
-    width: 250px; /* ✅ Lebar target saat input terlihat */
+    width: 250px;
     opacity: 1;
 }
 
 .search-form input {
-    /* Styling Input */
-    width: 250px; /* Lebar input harus sesuai lebar container */
+    width: 250px;
     padding: 0.5rem 1rem;
     border-radius: 4px;
     background-color: #444; 
@@ -501,10 +461,108 @@ body {
 }
 
 /* ========================================= */
-/* FILTER CSS */
+/* CONTACT FORM STYLING BARU (Dinamis) */
 /* ========================================= */
-.hide-on-search {
-    display: none !important;
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; 
+    max-width: 600px;
+    margin: 0 auto; 
+    padding: 2rem;
+    background: #252525; 
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid #333;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    padding: 1rem;
+    border: 1px solid #444;
+    border-radius: 6px;
+    background: #1a1a1a; 
+    color: #ffffff;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #00bcd4; 
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 188, 212, 0.5);
+}
+
+.contact-form textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+/* Tombol Submit */
+.submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #1a1a1a;
+    background-color: #00bcd4; 
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s;
+}
+
+.submit-btn:hover:not(:disabled) {
+    background-color: #00e5ff; 
+    transform: translateY(-2px);
+}
+
+.submit-btn:disabled {
+    background-color: #555;
+    color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Ikon Loading */
+.loading-icon {
+    animation: spin 1s linear infinite;
+    margin-right: 0.5rem;
+}
+
+/* Animasi Putar */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Status Pesan */
+.form-status {
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+.form-status svg {
+    margin-right: 0.5rem;
+}
+
+.form-status.success {
+    background-color: rgba(76, 175, 80, 0.2); 
+    color: #4CAF50;
+}
+
+.form-status.error {
+    background-color: rgba(244, 67, 54, 0.2); 
+    color: #F44336;
 }
 
 
@@ -523,31 +581,31 @@ body {
 @media (max-width: 768px) {
   /* GLOBAL FONT & PADDING */
   html {
-    font-size: 62.5%; /* Atur ulang rem base ke 10px (62.5% dari 16px) */
+    font-size: 62.5%; 
   }
 
   :root {
-    --section-padding: 6rem 5% 1.4rem; /* Kurangi padding samping */
+    --section-padding: 6rem 5% 1.4rem; 
   }
 
   .hero .content h1 {
-    font-size: 4rem; /* Turunkan ukuran heading hero */
+    font-size: 4rem; 
   }
 
   .about h2,
   .service h2,
   .project h2,
   .contact h2 {
-    font-size: 2.2rem; /* Turunkan ukuran heading section */
+    font-size: 2.2rem; 
     margin-bottom: 2rem;
   }
   
-  /* NAVBAR MOBILE LOGIC (TIDAK BERUBAH) */
-  #hamburger-menu {
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: inline-block;
+  /* NAVBAR MOBILE LOGIC */
+  
+  /* TAMPILKAN HAMBURGER DI MOBILE */
+  .hamburger-btn {
+    display: inline-block; /* TAMPILKAN di Mobile */
+    font-size: 2rem;
   }
 
   .navbar .navbar-extra .search-form, 
@@ -556,7 +614,6 @@ body {
   }
 
   .navbar .navbar-nav {
-    /* ... (CSS menu overlay Anda yang lama) ... */
     position: absolute;
     top: 100%;
     right: -100%;
@@ -592,42 +649,35 @@ body {
   /* LANYARD & ABOUT SECTION (Pseudo-2 Kolom) */
   /* ========================================= */
   .about-row {
-    /* Mencegah tumpukan vertikal, kembali ke flow/float */
     flex-direction: row; 
-    align-items: flex-start; /* Alignment atas */
-    flex-wrap: wrap; /* Izinkan wrapping jika tidak muat */
-    gap: 1.5rem; /* Kurangi gap */
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1.5rem;
   }
 
-  /* Lanyard di Kiri (diatur ukurannya di Lanyard.css) */
   .lanyard-wrapper {
-    /* Kunci: Membuat Lanyard mengambil ruang kecil, dan teks mengalir */
-    flex: 0 0 120px; /* Ukuran lebar yang diperkecil */
-    height: 350px; /* Tinggi akan diatur di Lanyard.css */
+    flex: 0 0 120px;
+    height: 350px;
     order: 1;
-    margin: 0 1.5rem 1rem 0; /* Margin agar teks tidak menempel */
+    margin: 0 1.5rem 1rem 0;
     min-width: unset; 
   }
 
-  /* About Content (Teks) */
   .about-content {
     order: 2;
-    flex: 1 1 calc(100% - 150px); /* Ambil sisa ruang */
-    /* ✅ Teks harus rata kiri di setup flow/pseudo-2 kolom */
+    flex: 1 1 calc(100% - 150px);
     text-align: left; 
     padding: 0;
   }
   .about-content p {
-    text-align: left; /* Teks harus rata kiri agar mudah dibaca */
-    font-size: 1.2rem; /* Penyesuaian font size teks konten */
+    text-align: left;
+    font-size: 1.2rem;
   }
   
   /* LOGO LOOP (OVERRIDE DARI logoloop.css) */
 .footer > div {
-    /* Override variabel LogoLoop yang didefinisikan di logoloop.css */
-    --logoloop-gap: 20px; /* Jarak antar logo lebih kecil (32px default) */
-    --logoloop-logoHeight: 20px; /* Ukuran ikon lebih kecil (28px default) */
-    /* Opsional: Tentukan tinggi container footer yang berisi LogoLoop */
+    --logoloop-gap: 20px;
+    --logoloop-logoHeight: 20px;
     height: 40px !important; 
 }
 
@@ -637,7 +687,7 @@ body {
 /* ---------- Mobile Kecil (450px) ---------- */
 @media (max-width: 450px) {
   html {
-    font-size: 50%; /* Lebih kecil lagi */
+    font-size: 50%;
   }
   
   .navbar .navbar-logo {
@@ -658,13 +708,12 @@ body {
   }
   
   .about-content {
-    flex: 1 1 calc(100% - 110px); /* Ambil sisa ruang */
+    flex: 1 1 calc(100% - 110px);
   }
 
   .footer > div {
-        /* Lebih kecil lagi di hp */
-        --logoloop-gap: 15px; /* Jarak minimal */
-        --logoloop-logoHeight: 1px; /* Ikon sangat kecil */
+        --logoloop-gap: 15px;
+        --logoloop-logoHeight: 1px;
         height: 30px !important; 
     }
 
