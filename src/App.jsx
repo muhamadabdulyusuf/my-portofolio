@@ -229,7 +229,7 @@ function App() {
       <section id="service" className="service">
         <h2>What I Bring <span>to Your Table</span></h2>
         <div className="demo">
-          <FallingText text={"Email Management Administrative Sosial Media Management Excel Word Power Point"} highlightWords={["..."]} highlightClass="highlighted" trigger="hover" backgroundColor="transparent" gravity={0.56} mouseConstraintStiffness={0.9} />
+          <FallingText text={"Email Management Administrative Sosial Media Management Excel Word Power Point Hospitality Food and Beverage Service Barista"} highlightWords={["..."]} highlightClass="highlighted" trigger="hover" backgroundColor="transparent" gravity={0.56} mouseConstraintStiffness={0.9} />
         </div>
         <div className="service-cards-container">
           <div className="service-card"><i data-feather="mail" className="service-icon"></i><h3>Email Management</h3><p>Mengatur lalu lintas pesan masuk (inbox), menyusun draf balasan profesional, serta melakukan kurasi email penting agar komunikasi bisnis tetap berjalan lancar.</p><a href="#contact" className="service-cta">Learn More</a></div>
