@@ -116,6 +116,15 @@ function App() {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+
+const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState({ title: "", detail: "" });
+  const openModal = (e, title, detail) => {
+    e.preventDefault();
+    setModalContent({ title, detail });
+    setIsModalOpen(true);
+  };
+
   const navbarRef = useRef(null);
   const hamburgerRef = useRef(null);
   const searchInputRef = useRef(null);
@@ -226,21 +235,71 @@ function App() {
       </section>
 
       {/* SERVICE */}
-      <section id="service" className="service">
-        <h2>What I Bring <span>to Your Table</span></h2>
-        <div className="demo">
-          <FallingText text={"Email Management Administrative Sosial Media Management Excel Word Power Point Hospitality Food and Beverage Service Barista"} highlightWords={["..."]} highlightClass="highlighted" trigger="hover" backgroundColor="transparent" gravity={0.56} mouseConstraintStiffness={0.9} />
-        </div>
-        <div className="service-cards-container">
-          <div className="service-card"><i data-feather="mail" className="service-icon"></i><h3>Email Management</h3><p>Mengatur lalu lintas pesan masuk (inbox), menyusun draf balasan profesional, serta melakukan kurasi email penting agar komunikasi bisnis tetap berjalan lancar.</p><a href="#contact" className="service-cta">Learn More</a></div>
-          <div className="service-card"><i data-feather="layers" className="service-icon"></i><h3>Microsoft Office</h3><p>Mahir mengoperasikan Word, Excel, dan PowerPoint untuk mendukung kebutuhan bisnis dan presentasi.</p><a href="#contact" className="service-cta">Learn More</a></div>
-          <div className="service-card"><i data-feather="clipboard" className="service-icon"></i><h3>Administrative</h3><p>Menyediakan dukungan operasional mulai dari entri data, manajemen jadwal, hingga pengarsipan dokumen digital.</p><a href="#contact" className="service-cta">Learn More</a></div>
-          <div className="service-card"><i data-feather="share-2" className="service-icon"></i><h3>Sosial Media Management</h3><p>Mengelola kehadiran digital melalui perencanaan konten yang konsisten dan memantau interaksi audiens.</p><a href="#contact" className="service-cta">Learn More</a></div>
-          <div className="service-card"><i data-feather="pen-tool" className="service-icon"></i><h3>Design</h3><p>Menyediakan jasa desain grafis kreatif untuk kebutuhan promosi, konten media sosial, dan presentasi.</p><a href="#contact" className="service-cta">Learn More</a></div>
-          <div className="service-card"><i data-feather="coffee" className="service-icon"></i><h3>Barista</h3><p>Dalam dua bulan perjalanan sebagai barista, saya fokus menjaga konsistensi rasa dan kualitas visual latte art. Meski tergolong singkat, progres ini menjadi pencapaian pribadi bagi saya karena mampu menguasai teknik dan komposisi menu secara cepat dan presisi.</p><a href="#contact" className="service-cta">Learn More</a></div>
-          <div className="service-card"><i data-feather="user-check" className="service-icon"></i><h3>Hospitality</h3><p>Memiliki pengalaman operasional yang kuat di bagian F&B Service. Terbiasa menangani Guest Service secara langsung, efisiensi Room Service, hingga koordinasi tim di bagian Banquet. Komitmen saya adalah memberikan pelayanan yang cepat, ramah, dan sesuai standar hospitality</p><a href="#contact" className="service-cta">Learn More</a></div>
-        </div>
-      </section>
+<section id="service" className="service">
+  <h2>What I Bring <span>to Your Table</span></h2>
+  <div className="demo">
+    <FallingText text={"Email Management Administrative Sosial Media Management Excel Word Power Point Hospitality Food and Beverage Service Barista"} highlightWords={["..."]} highlightClass="highlighted" trigger="hover" backgroundColor="transparent" gravity={0.56} mouseConstraintStiffness={0.9} />
+  </div>
+  <div className="service-cards-container">
+    
+    {/* Email Management */}
+    <div className="service-card">
+      <i data-feather="mail" className="service-icon"></i>
+      <h3>Email Management</h3>
+      <p>Mengatur lalu lintas pesan masuk (inbox), menyusun draf balasan profesional, serta melakukan kurasi email penting agar komunikasi bisnis tetap berjalan lancar.</p>
+      <a href="#!" className="service-cta" onClick={(e) => openModal(e, "Email Management", "• Memfilter email masuk berdasarkan prioritas.\n• Menyusun draf balasan profesional untuk klien.\n• Membersihkan spam dan mengorganisir folder arsip.")}>Learn More</a>
+    </div>
+
+    {/* Microsoft Office */}
+    <div className="service-card">
+      <i data-feather="layers" className="service-icon"></i>
+      <h3>Microsoft Office</h3>
+      <p>Mahir mengoperasikan Word, Excel, dan PowerPoint untuk mendukung kebutuhan bisnis dan presentasi.</p>
+      <a href="#!" className="service-cta" onClick={(e) => openModal(e, "Microsoft Office", "• Excel: Pembuatan laporan keuangan, pivot table, dan otomasi data.\n• Word: Pembuatan surat resmi, proposal, dan dokumen bisnis.\n• PPT: Desain slide presentasi yang clean dan profesional.")}>Learn More</a>
+    </div>
+
+    {/* Administrative */}
+    <div className="service-card">
+      <i data-feather="clipboard" className="service-icon"></i>
+      <h3>Administrative</h3>
+      <p>Menyediakan dukungan operasional mulai dari entri data, manajemen jadwal, hingga pengarsipan dokumen digital.</p>
+      <a href="#!" className="service-cta" onClick={(e) => openModal(e, "Administrative Support", "• Data Entry: Input data cepat dengan akurasi tinggi.\n• Calendar Management: Mengatur jadwal meeting dan pengingat harian.\n• Digital Filing: Pengarsipan dokumen cloud yang sistematis.")}>Learn More</a>
+    </div>
+
+    {/* Sosial Media Management */}
+    <div className="service-card">
+      <i data-feather="share-2" className="service-icon"></i>
+      <h3>Sosial Media Management</h3>
+      <p>Mengelola kehadiran digital melalui perencanaan konten yang konsisten dan memantau interaksi audiens.</p>
+      <a href="#!" className="service-cta" onClick={(e) => openModal(e, "Social Media Management", "• Content Planning: Membuat kalender konten mingguan.\n• Audience Interaction: Merespons komentar dan DM secara profesional.\n• Analytics: Memantau pertumbuhan followers dan engagement.")}>Learn More</a>
+    </div>
+
+    {/* Design */}
+    <div className="service-card">
+      <i data-feather="pen-tool" className="service-icon"></i>
+      <h3>Design</h3>
+      <p>Menyediakan jasa desain grafis kreatif untuk kebutuhan promosi, konten media sosial, dan presentasi.</p>
+      <a href="#!" className="service-cta" onClick={(e) => openModal(e, "Creative Design", "• Social Media Graphics: Desain feed dan story Instagram yang estetik.\n• Presentation Design: Slide PowerPoint/Canva yang profesional.\n• Branding: Pembuatan aset visual sederhana untuk identitas bisnis.")}>Learn More</a>
+    </div>
+
+    {/* Barista */}
+    <div className="service-card">
+      <i data-feather="coffee" className="service-icon"></i>
+      <h3>Barista</h3>
+      <p>Dalam dua bulan perjalanan sebagai barista, saya fokus menjaga konsistensi rasa dan kualitas visual latte art. Meski tergolong singkat, progres ini menjadi pencapaian pribadi bagi saya karena mampu menguasai teknik dan komposisi menu secara cepat dan presisi.</p>
+      <a href="#!" className="service-cta" onClick={(e) => openModal(e, "Barista Experience", "Pencapaian dalam 2 Bulan:\n• Hafal 15+ resep beverage (Espresso & Non-Coffee) secara presisi.\n• Menguasai teknik milk steaming untuk texture yang halus.\n• Mahir membuat basic latte art (Pattern Love) untuk standar sajian.")}>Learn More</a>
+    </div>
+
+    {/* Hospitality */}
+    <div className="service-card">
+      <i data-feather="user-check" className="service-icon"></i>
+      <h3>Hospitality</h3>
+      <p>Memiliki pengalaman operasional yang kuat di bagian F&B Service. Terbiasa menangani Guest Service secara langsung, efisiensi Room Service, hingga koordinasi tim di bagian Banquet. Komitmen saya adalah memberikan pelayanan yang cepat, ramah, dan sesuai standar hospitality</p>
+      <a href="#!" className="service-cta" onClick={(e) => openModal(e, "Hospitality & F&B Service", "Detail Pengalaman:\n• Waiter: Menangani guest relations dan table setup.\n• Room Service: Delivering food & service dengan standar privasi tamu.\n• Banquet: Berpengalaman melayani event berskala besar (Wedding/Gala).")}>Learn More</a>
+    </div>
+
+  </div>
+</section>
 
       {/* PROJECT */}
       <section id="project" className="project">
@@ -269,6 +328,22 @@ function App() {
         </div>
         <p>&copy; 2025 Muhamad Abdul Yusuf. All rights reserved.</p>
       </footer>
+    
+   
+   
+   {/* MODAL COMPONENT */}
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="close-modal" onClick={() => setIsModalOpen(false)}>&times;</button>
+            <h3>{modalContent.title}</h3>
+            <div className="modal-body">
+              <p style={{ whiteSpace: "pre-line" }}>{modalContent.detail}</p>
+            </div>
+            <a href="#contact" className="cta" onClick={() => setIsModalOpen(false)}>Hire Me</a>
+          </div>
+        </div>
+      )}
     </>
   );
 }
